@@ -1,0 +1,491 @@
+[
+    {
+        "id": "4db7043d.abb81c",
+        "type": "tab",
+        "label": "Intento Flow",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "4fb78e2d.30edc8",
+        "type": "mqtt in",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "topic": "rikoudousennin7",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "82ead9bd.bba5f8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 320,
+        "y": 160,
+        "wires": [
+            [
+                "63646ea7.1fd5d"
+            ]
+        ]
+    },
+    {
+        "id": "63646ea7.1fd5d",
+        "type": "json",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 500,
+        "y": 160,
+        "wires": [
+            [
+                "dfbf10b.cee08f",
+                "320fb3d1.59ace4",
+                "254aab6f.4e8024"
+            ]
+        ]
+    },
+    {
+        "id": "dfbf10b.cee08f",
+        "type": "function",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "func": "msg.payload = msg.payload.Temp;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 160,
+        "wires": [
+            [
+                "dc83aca5.f07ce",
+                "e0005a25.3b64d"
+            ]
+        ]
+    },
+    {
+        "id": "dc83aca5.f07ce",
+        "type": "ui_gauge",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "group": "babdce75.8cdd28",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Temperatura",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "30",
+        "max": "120",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 850,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e0005a25.3b64d",
+        "type": "switch",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "90",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "90",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "110",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 970,
+        "y": 200,
+        "wires": [
+            [
+                "ca493227.65a5a8",
+                "863e2056a65f8571"
+            ],
+            [
+                "7ba89be5.ab422c"
+            ],
+            [
+                "a276cc9e.84da98"
+            ]
+        ]
+    },
+    {
+        "id": "ca493227.65a5a8",
+        "type": "change",
+        "z": "4db7043d.abb81c",
+        "name": "Encender ventilador",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1160,
+        "y": 140,
+        "wires": [
+            [
+                "2f4434e3.40a3ac"
+            ]
+        ]
+    },
+    {
+        "id": "7ba89be5.ab422c",
+        "type": "change",
+        "z": "4db7043d.abb81c",
+        "name": "Apagar ventilador",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1150,
+        "y": 200,
+        "wires": [
+            [
+                "2f4434e3.40a3ac"
+            ]
+        ]
+    },
+    {
+        "id": "a276cc9e.84da98",
+        "type": "exec",
+        "z": "4db7043d.abb81c",
+        "command": "rsync -a $HOME/isur/prueba.xd",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Backup",
+        "x": 1140,
+        "y": 260,
+        "wires": [
+            [
+                "8c678156.2f18c"
+            ],
+            [
+                "dafc59a3.fc4ef"
+            ],
+            [
+                "66e27adf.451fac"
+            ]
+        ]
+    },
+    {
+        "id": "8c678156.2f18c",
+        "type": "ui_text",
+        "z": "4db7043d.abb81c",
+        "group": "babdce75.8cdd28",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "stdout",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 1310,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "dafc59a3.fc4ef",
+        "type": "ui_text",
+        "z": "4db7043d.abb81c",
+        "group": "babdce75.8cdd28",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "error",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 1310,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "66e27adf.451fac",
+        "type": "ui_text",
+        "z": "4db7043d.abb81c",
+        "group": "babdce75.8cdd28",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "return code",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 1330,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "2f4434e3.40a3ac",
+        "type": "ui_switch",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "label": "Ventilador",
+        "tooltip": "",
+        "group": "1c97949e.ebdda3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "x": 1390,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5e979073.666f78",
+        "type": "ui_text",
+        "z": "4db7043d.abb81c",
+        "group": "6044400a.a558d8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Dispositivo",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 850,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "320fb3d1.59ace4",
+        "type": "function",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "func": "msg.payload = msg.payload.ID;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 200,
+        "wires": [
+            [
+                "5e979073.666f78"
+            ]
+        ]
+    },
+    {
+        "id": "3ad32d1e.4012da",
+        "type": "ui_chart",
+        "z": "4db7043d.abb81c",
+        "name": "Stress",
+        "group": "babdce75.8cdd28",
+        "order": 4,
+        "width": "6",
+        "height": "5",
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "30",
+        "ymax": "130",
+        "removeOlder": "30",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 830,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "254aab6f.4e8024",
+        "type": "function",
+        "z": "4db7043d.abb81c",
+        "name": "",
+        "func": "msg.topic = msg.payload.ID;\nmsg.payload = msg.payload.Temp;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 240,
+        "wires": [
+            [
+                "3ad32d1e.4012da"
+            ]
+        ]
+    },
+    {
+        "id": "1762f022cb440a3f",
+        "type": "twitter out",
+        "z": "4db7043d.abb81c",
+        "twitter": "",
+        "name": "Tweet",
+        "x": 1310,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "863e2056a65f8571",
+        "type": "change",
+        "z": "4db7043d.abb81c",
+        "name": "ALERTA",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "TEMPERATURA FATAL.",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1130,
+        "y": 100,
+        "wires": [
+            [
+                "1762f022cb440a3f"
+            ]
+        ]
+    },
+    {
+        "id": "82ead9bd.bba5f8",
+        "type": "mqtt-broker",
+        "name": "BrokerPublico",
+        "broker": "18.198.240.106",
+        "port": "1883",
+        "clientid": "criko38",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "babdce75.8cdd28",
+        "type": "ui_group",
+        "name": "Monitor",
+        "tab": "669dd5e7.b79044",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "1c97949e.ebdda3",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "669dd5e7.b79044",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "6044400a.a558d8",
+        "type": "ui_group",
+        "name": "Identificación",
+        "tab": "669dd5e7.b79044",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "669dd5e7.b79044",
+        "type": "ui_tab",
+        "name": "Servidor",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
