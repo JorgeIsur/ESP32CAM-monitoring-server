@@ -64,4 +64,9 @@ Para observar el funcionamiento de este proyecto deberás realizar lo siguiente.
 6. Crear un tema para publicar en el broker.
 7. Carga el programa ESP32CAM-monitoring-server.ino en el ESP32CAM.
 8. Visita el dashboard de NodeRed
-
+### ADVERTENCIAS
+El mensaje de alerta que será el cuerpo del Tweet en msg.payload
+no debe ser enviado en simultaneo en cortos periodos de tiempo,
+de lo contrario recibirás un error:
+- [error] [twitter out:Tweet] Status is a duplicate.
+Seguramente esto con fines de evitar el spam.
